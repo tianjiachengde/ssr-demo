@@ -11,7 +11,15 @@ export function createRouter () {
       {
         path:'/',
         component: () => import('./components/HelloWorld')
-      }
+      },
+      {
+        path:'/home',
+        component: () => import('./components/HelloWorld')
+      },
+      {
+        path:'/test',
+        component: () => import('./components/Test')
+      },
     ]
   })
 }

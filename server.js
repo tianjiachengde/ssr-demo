@@ -6,38 +6,47 @@ const clientManifest = require('./dist/vue-ssr-client-manifest.json');
 
 const app = express();
 
-const renderer = createBundleRenderer(serverBundle, {
-  runInNewContext: false,
-  template,
-  clientManifest:clientManifest
-})
-
-function renderToString (context) {
-  return new Promise((resolve, reject) => {
-    renderer.renderToString(context, (err, html) => {
-      err ? reject(err) : resolve(html)
-    })
-  })
-}
+// 引入静态资源
 app.use(express.static('./dist'))
 
-app.use(async(req, res, next) => {
-  try {
-    const context = {
-      title: '服务端渲染测试', // {{title}}
-      url: req.url
+const renderer = createBundleRenderer(serverBundle, {
+  runInNewContext: false, // 推荐
+  template, // （可选）页面模板
+  clientManifest // （可选）客户端构建 manifest
+});
+
+app.get('*', (req, res) => {
+  res.setHeader('Content-Type', 'text/html')
+
+  const handleError = err => {
+    if (err.url) {
+      res.redirect(err.url)
+    } else if (err.code === 404) {
+      res.status(404).send('404 | Page Not Found')
+    } else {
+      // Render Error Page or Redirect
+      res.status(500).send('500 | Internal Server Error')
+      // console.error(`error during render : ${req.url}`)
+      // console.error(err.stack)
+      console.error(err)
     }
-    // 设置请求头
-    res.set('Content-Type', 'text/html')
-    const render = await renderToString(context)
-    // 将服务器端渲染好的html返回给客户端
-    res.end(render)
-  } catch (e) {
-    console.log(e)
-    // 如果没找到，放过请求，继续运行后面的中间件
-    next()
   }
+
+  const context = {
+    title: 'Vue SSR demo', // default title
+    url: req.url
+  };
+  renderer.renderToString(context, (err, html) => {
+    console.log('render')
+    if (err) {
+      return handleError(err)
+    }
+    res.send(html)
+  })
 })
+
+app.on('error', err => console.log(err))
+
 
 app.listen(3000,()=>{
   console.log('启动成功','localhost:3000')
