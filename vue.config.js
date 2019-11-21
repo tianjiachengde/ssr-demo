@@ -43,8 +43,9 @@ module.exports = {
         .rule("vue")
         .use("vue-loader")
         .tap(options => {
-          merge(options, {
-            optimizeSSR: false
+           merge(options, {
+            optimizeSSR: false,
+            extractCSS: TARGET_NODE
           });
         });
 

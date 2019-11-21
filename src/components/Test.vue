@@ -11,5 +11,7 @@
 </script>
 
 <style scoped>
-
+h2{
+  font-size: 100px;
+}
 </style>
