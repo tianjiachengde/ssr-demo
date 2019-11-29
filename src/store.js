@@ -7,7 +7,7 @@ function fetchItemApi() {
   return Promise.resolve('store test')
 }
 export function createStore() {
-  return new vuex.Store({
+  const store = new vuex.Store({
     state:{
       item:{}
     },
@@ -22,5 +22,7 @@ export function createStore() {
         state.item = data;
       }
     }
-  })
+  });
+
+  return store
 }

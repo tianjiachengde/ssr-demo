@@ -28,11 +28,11 @@ export default context => {
         }
       })).then(
         () => {
-          context.state = store.state
+          context.state = store.state;
+          // Promise 应该 resolve 应用程序实例，以便它可以渲染
+          resolve(app);
         }
       );
-      // Promise 应该 resolve 应用程序实例，以便它可以渲染
-      resolve(app);
     }, reject);
   });
 };

@@ -4,8 +4,7 @@ import { createApp } from './main'
 // 客户端特定引导逻辑……
 const { app, router, store } = createApp();
 
-console.log('window.__INITIAL_STATE__:',window.__INITIAL_STATE__);
-if(window.__INITIAL_STATE__){
+if(typeof window !== 'undefined' && window.__INITIAL_STATE__){
   console.log('window.__INITIAL_STATE__:',window.__INITIAL_STATE__);
   store.replaceState(window.__INITIAL_STATE__)
 }
