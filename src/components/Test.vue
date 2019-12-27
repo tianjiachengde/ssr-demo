@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2>SSR 测试</h2>
-    <h1>store item: {{item}}</h1>
+    <h1 v-if="item">store item: {{item}}</h1>
   </div>
 </template>
 

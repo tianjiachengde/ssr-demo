@@ -53,5 +53,12 @@ module.exports = {
     if (TARGET_NODE) {
       config.plugins.delete("hmr");
     }
+  },
+  devServer:{
+    before: function(app) {  //直接用devserver这个服务
+      app.get('/api/news', function(req, res) {
+        res.json({ msg: 'dev-before' })
+      })
+    }
   }
 };

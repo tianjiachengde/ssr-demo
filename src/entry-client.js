@@ -20,7 +20,7 @@ router.onReady(() => {
     });
 
     if(!activated.length){
-      configurable.log('activated.length:  ',activated.length)
+      console.log('activated.length:  ',activated.length)
       return next()
     }
 
